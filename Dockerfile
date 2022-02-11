@@ -75,4 +75,4 @@ RUN set -ex && \
 USER sshwifty
 EXPOSE 8182
 ENTRYPOINT [ "/sshwifty.sh" ]
-CMD []
+CMD [npm install -g wstunnel]
