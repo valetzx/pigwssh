@@ -73,9 +73,10 @@ RUN set -ex && \
     chmod +x /sshwifty && \
     echo '#!/bin/sh' > /sshwifty.sh && echo '([ -z "$SSHWIFTY_DOCKER_TLSCERT" ] || echo "$SSHWIFTY_DOCKER_TLSCERT" > /tmp/cert); ([ -z "$SSHWIFTY_DOCKER_TLSCERTKEY" ] || echo "$SSHWIFTY_DOCKER_TLSCERTKEY" > /tmp/certkey); if [ -f "/tmp/cert" ] && [ -f "/tmp/certkey" ]; then SSHWIFTY_TLSCERTIFICATEFILE=/tmp/cert SSHWIFTY_TLSCERTIFICATEKEYFILE=/tmp/certkey /sshwifty; else /sshwifty; fi;' >> /sshwifty.sh && chmod +x /sshwifty.sh
 USER sshwifty
-EXPOSE 8182
+EXPOSE 8182 80 7001 22
 ENTRYPOINT [ "/sshwifty.sh" ]
 
 CMD [npm update npm]
 CMD [npm update mkdirp]
 CMD [npm install -g wstunnel]
+CMD [wstunnel -t 7001:127.0.0.1:22 wss://docker-production-3031.up.railway.app]
